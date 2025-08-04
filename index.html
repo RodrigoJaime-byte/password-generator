@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Contraseñas Seguras</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-shield-alt"></i> Generador de Contraseñas Seguras</h1>
+            <p>Crea contraseñas fuertes y seguras para proteger tus cuentas</p>
+        </header>
+
+        <main>
+            <div class="generator-section">
+                <div class="password-display">
+                    <input type="text" id="passwordOutput" readonly placeholder="Tu contraseña aparecerá aquí...">
+                    <button id="copyBtn" title="Copiar contraseña">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <div class="strength-indicator">
+                    <div class="strength-bar">
+                        <div id="strengthBar" class="strength-fill"></div>
+                    </div>
+                    <span id="strengthText">Genera una contraseña</span>
+                </div>
+
+                <div class="options">
+                    <div class="option-group">
+                        <label for="length">Longitud de la contraseña:</label>
+                        <div class="length-control">
+                            <input type="range" id="length" min="8" max="50" value="16">
+                            <span id="lengthValue">16</span>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="uppercase" checked>
+                            <span class="checkmark"></span>
+                            Incluir mayúsculas (A-Z)
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="lowercase" checked>
+                            <span class="checkmark"></span>
+                            Incluir minúsculas (a-z)
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="numbers" checked>
+                            <span class="checkmark"></span>
+                            Incluir números (0-9)
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="symbols" checked>
+                            <span class="checkmark"></span>
+                            Incluir símbolos (!@#$%^&*)
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="excludeAmbiguous">
+                            <span class="checkmark"></span>
+                            Excluir caracteres ambiguos (0, O, l, I)
+                        </label>
+                    </div>
+                </div>
+
+                <button id="generateBtn" class="generate-btn">
+                    <i class="fas fa-sync-alt"></i>
+                    Generar Contraseña
+                </button>
+            </div>
+
+            <div class="info-section">
+                <div class="security-tips">
+                    <h3><i class="fas fa-lightbulb"></i> Consejos de Seguridad</h3>
+                    <ul>
+                        <li>Usa contraseñas únicas para cada cuenta</li>
+                        <li>Cambia tus contraseñas regularmente</li>
+                        <li>Nunca compartas tus contraseñas</li>
+                        <li>Usa un gestor de contraseñas</li>
+                        <li>Activa la autenticación de dos factores</li>
+                    </ul>
+                </div>
+
+                <div class="crack-time">
+                    <h3><i class="fas fa-clock"></i> Tiempo estimado para romper</h3>
+                    <p id="crackTime">Genera una contraseña para ver el tiempo estimado</p>
+                </div>
+            </div>
+            <div class="password-history">
+                <div class="history-header">
+                    <h3><i class="fas fa-history"></i> Historial de Contraseñas</h3>
+                    <button id="clearHistoryBtn" class="clear-history-btn" title="Limpiar historial">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+                <ul id="passwordHistory" class="history-list">
+                    <!-- El historial se generará dinámicamente con JavaScript -->
+                    <li class="empty-history">No hay contraseñas en el historial</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>© 2023 Generador de Contraseñas Seguras | Creado por Nidal</p>
+        <div class="theme-toggle">
+            <label for="themeSwitch" class="theme-label">Modo oscuro</label>
+            <div class="toggle-switch">
+                <input type="checkbox" id="themeSwitch">
+                <span class="toggle-slider"></span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
