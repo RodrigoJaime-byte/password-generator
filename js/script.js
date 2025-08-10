@@ -1,13 +1,12 @@
-// Conjuntos de caracteres
 const characterSets = {
     uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
     lowercase: 'abcdefghijklmnopqrstuvwxyz',
     numbers: '0123456789',
     symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?',
-    ambiguous: '0O1lI' // Caracteres que pueden confundirse
+    ambiguous: '0O1lI'
 };
 
-// Referencias DOM
+
 const elements = {
     passwordOutput: document.getElementById('passwordOutput'),
     copyBtn: document.getElementById('copyBtn'),
@@ -26,7 +25,7 @@ const elements = {
     }
 };
 
-// Inicio
+
 document.addEventListener('DOMContentLoaded', function() {
     loadSavedPreferences();
     initializeEventListeners();
@@ -35,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkDarkMode();
 });
 
-// Eventos
+
 function initializeEventListeners() {
     elements.generateBtn.addEventListener('click', generatePassword);
     elements.copyBtn.addEventListener('click', copyToClipboard);
@@ -84,12 +83,12 @@ function initializeEventListeners() {
     });
 }
 
-// Actualizar el display de la longitud
+
 function updateLengthDisplay() {
     elements.lengthValue.textContent = elements.lengthSlider.value;
 }
 
-// Función principal para generar contraseña
+
 function generatePassword() {
     const options = getPasswordOptions();
     
@@ -192,58 +191,57 @@ function shuffleString(str) {
     return str.split('').sort(() => Math.random() - 0.5).join('');
 }
 
-// Mostrar la contraseña generada
-// Historial de contraseñas
+
 let passwordHistory = [];
 const MAX_HISTORY = 5;
 
-// Actualizar función displayPassword para guardar en historial
+
 function displayPassword(password) {
     elements.passwordOutput.value = password;
     elements.passwordOutput.style.color = '#2c3e50';
     
-    // Añadir al historial
+
     addToHistory(password);
 }
 
-// Añadir contraseña al historial
+
 function addToHistory(password) {
-    // Evitar duplicados
+
     if (passwordHistory.includes(password)) return;
     
-    // Añadir al inicio del array
+
     passwordHistory.unshift(password);
     
-    // Limitar a MAX_HISTORY elementos
+
     if (passwordHistory.length > MAX_HISTORY) {
         passwordHistory.pop();
     }
     
-    // Actualizar UI del historial si existe
+
     updateHistoryUI();
 }
 
-// Actualizar UI del historial
+
 function updateHistoryUI() {
     const historyElement = document.getElementById('passwordHistory');
     if (!historyElement) return;
     
     historyElement.innerHTML = '';
     
-    // Mostrar mensaje si el historial está vacío
+
     if (passwordHistory.length === 0) {
         const emptyMsg = document.createElement('p');
         emptyMsg.className = 'empty-history-message';
         emptyMsg.textContent = 'No hay contraseñas en el historial';
         historyElement.appendChild(emptyMsg);
         
-        // Ocultar botón de limpiar historial si existe
+
         const clearBtn = document.getElementById('clearHistoryBtn');
         if (clearBtn) clearBtn.style.display = 'none';
         return;
     }
     
-    // Mostrar botón de limpiar historial si existe
+
     const clearBtn = document.getElementById('clearHistoryBtn');
     if (clearBtn) clearBtn.style.display = 'block';
     
@@ -302,7 +300,7 @@ function showCopySuccess() {
     elements.copyBtn.innerHTML = '<i class="fas fa-check"></i>';
     elements.copyBtn.classList.add('copied');
     
-    // Mostrar notificación
+
     showNotification('¡Contraseña copiada al portapapeles!', 'success');
     
     setTimeout(() => {
@@ -311,7 +309,7 @@ function showCopySuccess() {
     }, 2000);
 }
 
-// Actualizar indicador de fortaleza
+
 function updateStrengthIndicator(password, options) {
     const strength = calculatePasswordStrength(password, options);
     const strengthClass = getStrengthClass(strength.score);
@@ -321,16 +319,16 @@ function updateStrengthIndicator(password, options) {
     elements.strengthText.textContent = `${strengthText} (${strength.score}/4)`;
 }
 
-// Calcular fortaleza de la contraseña
+
 function calculatePasswordStrength(password, options) {
     let score = 0;
     let feedback = [];
     
-    // Longitud
+
     if (password.length >= 12) score += 1;
     else feedback.push('Usa al menos 12 caracteres');
     
-    // Variedad de caracteres
+
     let charTypes = 0;
     if (options.includeUppercase) charTypes++;
     if (options.includeLowercase) charTypes++;
@@ -340,35 +338,35 @@ function calculatePasswordStrength(password, options) {
     if (charTypes >= 3) score += 1;
     else feedback.push('Incluye más tipos de caracteres');
     
-    // Longitud adicional
+
     if (password.length >= 16) score += 1;
     
-    // Complejidad máxima
+
     if (password.length >= 20 && charTypes === 4) score += 1;
     
     return { score, feedback };
 }
 
-// Obtener clase CSS para la fortaleza
+
 function getStrengthClass(score) {
     const classes = ['weak', 'fair', 'good', 'strong'];
     return classes[Math.min(score, 3)];
 }
 
-// Obtener texto descriptivo de la fortaleza
+
 function getStrengthText(score) {
     const texts = ['Débil', 'Regular', 'Buena', 'Fuerte'];
     return texts[Math.min(score, 3)];
 }
 
-// Actualizar tiempo estimado para romper la contraseña
+
 function updateCrackTime(password) {
     const entropy = calculateEntropy(password);
     const crackTime = estimateCrackTime(entropy);
     elements.crackTime.textContent = crackTime;
 }
 
-// Calcular entropía de la contraseña
+
 function calculateEntropy(password) {
     let charsetSize = 0;
     
@@ -380,9 +378,9 @@ function calculateEntropy(password) {
     return password.length * Math.log2(charsetSize);
 }
 
-// Estimar tiempo para romper la contraseña
+
 function estimateCrackTime(entropy) {
-    // Asumiendo 1 billón de intentos por segundo
+
     const attemptsPerSecond = 1e12;
     const secondsToBreak = Math.pow(2, entropy - 1) / attemptsPerSecond;
     
@@ -395,7 +393,7 @@ function estimateCrackTime(entropy) {
     return 'Más de 1000 años';
 }
 
-// Mostrar mensaje de error
+
 function showError(message) {
     elements.passwordOutput.value = message;
     elements.passwordOutput.style.color = '#e74c3c';
@@ -404,7 +402,7 @@ function showError(message) {
     elements.crackTime.textContent = 'N/A';
 }
 
-// Funciones de utilidad adicionales
+
 function addRotatingEffect() {
     elements.generateBtn.querySelector('i').style.transform = 'rotate(360deg)';
     setTimeout(() => {
@@ -412,10 +410,10 @@ function addRotatingEffect() {
     }, 300);
 }
 
-// Agregar efecto de rotación al generar
+
 elements.generateBtn.addEventListener('click', addRotatingEffect);
 
-// Preferencias y modo oscuro
+
 function savePreferences() {
     const preferences = {
         length: elements.lengthSlider.value,
@@ -434,7 +432,7 @@ function loadSavedPreferences() {
     const savedPreferences = JSON.parse(localStorage.getItem('passwordGeneratorPreferences'));
     
     if (savedPreferences) {
-        // Aplicar preferencias guardadas
+
         elements.lengthSlider.value = savedPreferences.length || 12;
         elements.checkboxes.uppercase.checked = savedPreferences.uppercase !== undefined ? savedPreferences.uppercase : true;
         elements.checkboxes.lowercase.checked = savedPreferences.lowercase !== undefined ? savedPreferences.lowercase : true;
@@ -442,7 +440,7 @@ function loadSavedPreferences() {
         elements.checkboxes.symbols.checked = savedPreferences.symbols !== undefined ? savedPreferences.symbols : false;
         elements.checkboxes.excludeAmbiguous.checked = savedPreferences.excludeAmbiguous !== undefined ? savedPreferences.excludeAmbiguous : false;
         
-        // Aplicar modo oscuro si estaba activado
+
         if (savedPreferences.darkMode) {
             document.body.classList.add('dark-mode');
             const darkModeToggle = document.getElementById('darkModeToggle');
@@ -483,7 +481,7 @@ function showNotification(message, type = 'info') {
     notification.textContent = message;
     
     document.body.appendChild(notification);
-    notification.offsetHeight; // Forzar reflow
+    notification.offsetHeight;
     
     setTimeout(() => notification.classList.add('show'), 10);
     
